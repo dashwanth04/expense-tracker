@@ -1,0 +1,59 @@
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+:root {
+  --bg: #0b1220;
+  --card: rgba(255,255,255,0.03);
+  --text: #e6eef8;
+  --muted: #97a2b8;
+}
+
+body.light {
+  --bg: #f8f9fa;
+  --card: #ffffff;
+  --text: #1b1f23;
+  --muted: #6c757d;
+  background: var(--bg);
+  color: var(--text);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  min-height: 100vh;
+  margin: 0;
+  padding: 1rem;
+}
+
+.app-card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 1rem;
+}
+/* --- Dark Theme (Default) --- */
+/* This is the default style when 'body.light' is not present */
+body {
+  /* Gray-to-black gradient background */
+  background-image: linear-gradient(to bottom, #4a4a4a, #111111);
+  
+  /* Ensures gradient covers the full page and stays fixed */
+  background-attachment: fixed;
+  background-size: cover;
+  min-height: 100vh;
+
+  /* Sets the default text color to be light */
+  color: #f8f9fa;
+}
+
+/* --- Light Theme Override --- */
+/* This style applies when your toggleTheme() function adds the .light class */
+body.light {
+  /* Remove the gradient */
+  background-image: none;
+  /* Set a standard light background color */
+  background-color: #f0f2f5;
+
+  /* Sets the default text color to be dark */
+  color: #212529;
+}
