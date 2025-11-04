@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "ng serve --open",
-    "build": "npx --yes @angular/cli@18.0.0 build --configuration=production",
+    "build": "npx --yes @angular/cli@18.0.0 build --configuration=production"
     "test": "npx --yes @angular/cli@18.0.0 test",
   "lint": "npx --yes @angular/cli@18.0.0 lint"
   },
