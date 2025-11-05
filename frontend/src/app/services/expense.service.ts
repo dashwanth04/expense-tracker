@@ -14,19 +14,20 @@ export interface Expense {
   providedIn: 'root'
 })
 export class ExpenseService {
-  private apiUrl = 'http://localhost:4000/api/expenses';
+ private API_URL = "https://expense-backend-zzk0.onrender.com/api/expenses";
+
 
   constructor(private http: HttpClient) {}
 
   getExpenses(): Observable<Expense[]> {
-    return this.http.get<Expense[]>(this.apiUrl);
+    return this.http.get<Expense[]>(this.API_URL);
   }
 
   addExpense(expense: Expense): Observable<Expense> {
-    return this.http.post<Expense>(this.apiUrl, expense);
+    return this.http.post<Expense>(this.API_URL, expense);
   }
 
   deleteExpense(id: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`);
+    return this.http.delete(`${this.API_URL}/${id}`);
   }
 }
