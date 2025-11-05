@@ -21,15 +21,15 @@ export class ExpenseService {
 
   constructor(private http: HttpClient) {}
 
-  getExpenses(): Observable<Expense[]> {
-    return this.http.get<Expense[]>(this.apiUrl);
-  }
+  getExpenses() {
+  return this.http.get<Expense[]>(this.apiUrl);
+}
 
-  addExpense(expense: Expense): Observable<Expense> {
-    return this.http.post<Expense>(this.apiUrl, expense);
-  }
+addExpense(expense: Expense) {
+  return this.http.post<Expense>(this.apiUrl, expense);
+}
 
-  deleteExpense(id: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`);
-  }
+deleteExpense(id: string) {
+  return this.http.delete(`${this.apiUrl}/${id}`);
+}
 }
