@@ -8,16 +8,25 @@ dotenv.config();
 const app = express();
 
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || "http://localhost:4200",
+  origin: ["http://localhost:4200", "https://expense-backend-zzk0.onrender.com"],
   credentials: true
 }));
 app.use(express.json());
 
+// ✅ Root route
+app.get("/", (req, res) => {
+  res.send("Server is running ✅");
+});
+
+// API Routes
 app.use("/api/expenses", expenseRoutes);
 
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("✅ MongoDB connected"))
-  .catch((err) => console.error("❌ MongoDB connection error:", err));
+// DB Connect
+mongoose.connect(process.env.MONGO_URL)
+  .then(() => console.log("Connected to MongoDB"))
+  .catch(err => console.log(err));
 
-const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});
