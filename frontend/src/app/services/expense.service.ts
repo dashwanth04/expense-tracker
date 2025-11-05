@@ -14,7 +14,8 @@ export interface Expense {
   providedIn: 'root'
 })
 export class ExpenseService {
- private API_URL = "https://expense-backend-zzk0.onrender.com/api/expenses";
+ private API_URL = `${environment.apiUrl}/api/expenses`;
+
 
 
   constructor(private http: HttpClient) {}
