@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 
 export interface Expense {
@@ -15,24 +16,36 @@ export interface Expense {
   providedIn: 'root'
 })
 export class ExpenseService {
-
-  // ❗ FIX: Backend route is /api/expenses not /expenses
   private apiUrl = environment.apiUrl + "/api/expenses";
+
+  // If you need credentials (cookies/auth), set withCredentials: true
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    }),
+    // withCredentials: true
+  };
 
   constructor(private http: HttpClient) {}
 
-  // Get all expenses
   getExpenses(): Observable<Expense[]> {
-    return this.http.get<Expense[]>(this.apiUrl);
+    return this.http.get<Expense[]>(this.apiUrl, this.httpOptions)
+      .pipe(catchError(this.handleError));
   }
 
-  // Add new expense
   addExpense(expense: Expense): Observable<Expense> {
-    return this.http.post<Expense>(this.apiUrl, expense);
+    return this.http.post<Expense>(this.apiUrl, expense, this.httpOptions)
+      .pipe(catchError(this.handleError));
   }
 
-  // Delete expense by ID
   deleteExpense(id: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`);
+    return this.http.delete(`${this.apiUrl}/${id}`, this.httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  private handleError(err: HttpErrorResponse) {
+    console.error('API Error:', err);
+    // Customize error message for UI if you want
+    return throwError(() => err);
   }
 }
