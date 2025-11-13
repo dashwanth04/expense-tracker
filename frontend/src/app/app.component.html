@@ -1,48 +1,23 @@
 <div class="container">
-
   <h2>💰 Expense Tracker</h2>
 
-  <!-- Expense Form -->
   <div class="form">
     <input [(ngModel)]="newExpense.title" placeholder="Title" />
-
-    <input [(ngModel)]="newExpense.amount" 
-           type="number" 
-           placeholder="Amount (₹)" />
-
-    <input [(ngModel)]="newExpense.category" 
-           placeholder="Category" />
-
-    <input [(ngModel)]="newExpense.date"
-           type="date" />
-
+    <input [(ngModel)]="newExpense.amount" type="number" placeholder="Amount (₹)" />
+    <input [(ngModel)]="newExpense.category" placeholder="Category" />
+    <input [(ngModel)]="newExpense.date" type="date" />
     <button (click)="addExpense()">➕ Add Expense</button>
   </div>
 
-  <!-- Expense List -->
   <ul class="expense-list">
     <li *ngFor="let e of expenses" class="expense-item">
-
       <div class="expense-info">
         <h3>{{ e.title }}</h3>
-
         <p class="amount">₹{{ e.amount }}</p>
-
-        <small *ngIf="e.category">
-          📂 {{ e.category }}
-        </small>
-
-        <small *ngIf="e.date">
-          📅 {{ e.date | date:'mediumDate' }}
-        </small>
+        <small *ngIf="e.category">📂 {{ e.category }}</small>
+        <small *ngIf="e.date">📅 {{ e.date | date: 'mediumDate' }}</small>
       </div>
-
-      <button 
-        (click)="deleteExpense(e._id)" 
-        class="delete-btn">
-        🗑️
-      </button>
-
+      <button (click)="deleteExpense(e._id)" class="delete-btn">🗑️</button>
     </li>
   </ul>
 </div>

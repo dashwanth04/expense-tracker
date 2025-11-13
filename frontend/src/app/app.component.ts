@@ -1,16 +1,9 @@
+// src/app/app.component.ts
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { environment } from '../environments/environment';
-
-interface Expense {
-  _id?: string;
-  title: string;
-  amount: number;
-  category?: string;
-  date?: string;
-}
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { ExpenseService, Expense } from './services/expense.service';
 
 @Component({
   selector: 'app-root',
@@ -20,52 +13,45 @@ interface Expense {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-
   expenses: Expense[] = [];
+  newExpense: Expense = { title: '', amount: 0, category: '', date: '' };
 
-  newExpense: Expense = { 
-    title: '', 
-    amount: 0, 
-    category: '' 
-  };
-
-  // 🔥 FIX: Do NOT hardcode localhost — use environment variable
-  apiUrl = `${environment.apiUrl}/api/expenses`;
-
-  constructor(private http: HttpClient) {}
+  constructor(private expenseService: ExpenseService) {}
 
   ngOnInit(): void {
     this.getExpenses();
   }
 
-  // Fetch all expenses
   getExpenses() {
-    this.http.get<Expense[]>(this.apiUrl).subscribe({
-      next: (data) => (this.expenses = data),
+    this.expenseService.getExpenses().subscribe({
+      next: (data) => this.expenses = data,
       error: (err) => console.error('Error loading expenses:', err)
     });
   }
 
-  // Add a new expense
   addExpense() {
     if (!this.newExpense.title || !this.newExpense.amount) return;
 
-    this.http.post<Expense>(this.apiUrl, this.newExpense).subscribe({
+    // ensure date is ISO (optional)
+    const payload: Expense = {
+      ...this.newExpense,
+      date: this.newExpense.date ? new Date(this.newExpense.date).toISOString() : undefined
+    };
+
+    this.expenseService.addExpense(payload).subscribe({
       next: () => {
-        this.newExpense = { title: '', amount: 0, category: '' };
+        this.newExpense = { title: '', amount: 0, category: '', date: '' };
         this.getExpenses();
       },
       error: (err) => console.error('Error adding expense:', err)
     });
   }
 
-  // Delete expense
   deleteExpense(id?: string) {
     if (!id) return;
-
-    this.http.delete(`${this.apiUrl}/${id}`).subscribe({
+    this.expenseService.deleteExpense(id).subscribe({
       next: () => this.getExpenses(),
-      error: (err) => console.error('Error deleting:', err)
+      error: (err) => console.error('Error deleting expense:', err)
     });
   }
 }
