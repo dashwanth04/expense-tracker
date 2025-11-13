@@ -20,7 +20,7 @@ const safeBase = baseApi.endsWith("/api") ? baseApi.slice(0, -4) : baseApi;
   providedIn: 'root'
 })
 export class ExpenseService {
-  private apiUrl = safeBase + "/api/expenses";
+  private apiUrl = safeBase + "/expenses";
 
   // If you need credentials (cookies/auth), set withCredentials: true
   private httpOptions = {
