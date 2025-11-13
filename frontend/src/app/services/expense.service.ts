@@ -10,13 +10,16 @@ export interface Expense {
   amount: number;
   category?: string;
   date?: string;
-}
+} 
+
+const baseApi = environment.apiUrl?.replace(/\/+$/, "");
+const safeBase = baseApi.endsWith("/api") ? baseApi.slice(0, -4) : baseApi;
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExpenseService {
-  private apiUrl = environment.apiUrl + "/api/expenses";
+  private apiUrl = safeBase + "/api/expenses";
 
   // If you need credentials (cookies/auth), set withCredentials: true
   private httpOptions = {
